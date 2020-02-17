@@ -12,5 +12,11 @@ RUN ["yum", "install", "-y", "zlib"]
 RUN ["yum", "install", "-y", "openssl-devel"]
 RUN ["yum", "install", "-y", "libffi-devel"]
 RUN ["pyenv", "install", "3.7.4"]
+RUN . ~/.bashrc && \
+  pyenv shell 3.7.4 && \
+  pip install --upgrade pip  && \
+  pip install virtualenv && \
+  type python && \
+  python --version
 
 CMD ["python", "--version"]
