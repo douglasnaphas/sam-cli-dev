@@ -1,21 +1,23 @@
 FROM amazonlinux:2
 
-SHELL ["/usr/bin/bash", "-c"]
-ENV PATH /root/.pyenv/bin:$PATH
-RUN ["yum", "update", "-y"]
-RUN ["yum", "install", "-y", "git", "tar"]
-RUN curl https://pyenv.run | bash
-RUN echo 'if type pyenv &> /dev/null ; then eval "$(pyenv init -)" ; fi' > /root/.bashrc
-RUN ["yum", "install", "-y", "gcc"]
-RUN ["yum", "install", "-y", "make"]
-RUN ["yum", "install", "-y", "zlib"]
-RUN ["yum", "install", "-y", "openssl-devel"]
-RUN ["yum", "install", "-y", "libffi-devel", "which"]
-RUN ["pyenv", "install", "3.7.4"]
 ARG GIT_NAMESPACE=awslabs
 ARG GIT_REPO=aws-sam-cli
 ARG GIT_BRANCH=develop
-RUN . ~/.bashrc && \
+SHELL ["/usr/bin/bash", "-c"]
+ENV PATH /root/.pyenv/bin:$PATH
+RUN yum update -y && \
+  yum install -y git \
+  tar \
+  gcc \
+  make \
+  zlib \
+  openssl-devel \
+  libffi-devel \
+  which && \
+  curl https://pyenv.run | bash && \
+  echo 'if type pyenv &> /dev/null ; then eval "$(pyenv init -)" ; fi' > /root/.bashrc && \
+  pyenv install 3.7.4 && \
+  . ~/.bashrc && \
   pyenv shell 3.7.4 && \
   pip install --upgrade pip  && \
   pip install virtualenv && \
