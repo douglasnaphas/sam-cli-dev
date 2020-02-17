@@ -32,4 +32,11 @@ RUN yum update -y && \
   git checkout ${GIT_BRANCH} && \
   make init
 
-CMD . /root/.bashrc && . venv3.7.4/bin/activate && python --version && which samdev
+CMD . /root/.bashrc && \
+  . venv3.7.4/bin/activate && \
+  echo "profile: " ${AWS_PROFILE:-default} && \
+  echo "template: " ${TEMPLATE_YML:-template.yml} && \
+  echo "port: " ${PORT:-4401} && \
+  ls /tmp/host-cwd
+# head template.yml
+# samdev local start-api 
